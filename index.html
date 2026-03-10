@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+    <script>
+      // Handles color, transparency, and shading for .glb models
+      AFRAME.registerComponent('architect-filters', {
+        schema: {
+          color: {type: 'color', default: '#ffffff'},
+          opacity: {type: 'number', default: 1.0}
+        },
+        init: function () {
+          this.el.addEventListener('model-loaded', () => {
+            const mesh = this.el.getObject3D('mesh');
+            if (!mesh) return;
+            mesh.traverse((node) => {
+              if (node.isMesh) {
+                node.material.transparent = true;
+                node.material.opacity = this.data.opacity;
+                node.material.color.set(this.data.color);
+                node.material.roughness = 0.7; 
+                node.material.metalness = 0.2;
+              }
+            });
+          });
+        }
+      });
+    </script>
+  </head>
+
+  <body style="margin: 0px; overflow: hidden;">
+    <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; smooth: true; smoothCount: 10; patternRatio: 0.7;">
+      
+      <a-entity light="type: ambient; intensity: 0.7; color: #ffffff;"></a-entity>
+      <a-entity light="type: directional; intensity: 1.0;" position="1 4 2"></a-entity>
+
+      <a-marker type="pattern" url="https://raw.githubusercontent.com/an3732me-s-ship-it/6_test/refs/heads/main/patterns/pattern-opening.patt">
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/an3732me-s-ship-it/6_test/refs/heads/main/models/window.glb)" 
+                  scale="10 10 10" 
+                  position="0 5 0" 
+                  rotation="90 0 0"
+                  architect-filters="color: #355EDB; opacity: 0.8"></a-entity>
+      </a-marker>
+
+            <a-marker type="pattern" url="https://raw.githubusercontent.com/an3732me-s-ship-it/6_test/refs/heads/main/patterns/pattern-illum.patt">
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/an3732me-s-ship-it/6_test/refs/heads/main/models/cone.glb)" 
+                  scale="10 10 10" 
+                  position="0 0 0"
+                  architect-filters="color: #B8A3D9; opacity: 0.3"></a-entity>
+      </a-marker>
+
+      <a-marker type="pattern" url="https://raw.githubusercontent.com/an3732me-s-ship-it/6_test/refs/heads/main/patterns/pattern-connect.patt">
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/an3732me-s-ship-it/6_test/refs/heads/main/models/stair.glb)" 
+                  scale="10 10 10" 
+                  position="0 0 0" 
+                  architect-filters="color: #DB35CB; opacity: 0.8"></a-entity>
+      </a-marker>
+
+      <a-marker type="pattern" url="https://raw.githubusercontent.com/an3732me-s-ship-it/6_test/refs/heads/main/patterns/pattern-texture.patt">
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/an3732me-s-ship-it/6_test/refs/heads/main/models/bricks.glb)" 
+                  scale="10 10 10" 
+                  position="0 5 0" 
+                  rotation="90 0 0"
+                  architect-filters="color: #AE35DB; opacity: 0.8"></a-entity>
+      </a-marker>
+
+      <a-marker type="pattern" url="https://raw.githubusercontent.com/an3732me-s-ship-it/6_test/refs/heads/main/patterns/pattern-boundary.patt">
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/an3732me-s-ship-it/6_test/refs/heads/main/models/wall.glb)" 
+                  scale="10 10 10" 
+                  position="0 0 0" 
+                  rotation="0 0 0"
+                  architect-filters="color: #7835DB; opacity: 0.8"></a-entity>
+      </a-marker>
+
+      <a-marker type="pattern" url="https://raw.githubusercontent.com/an3732me-s-ship-it/6_test/refs/heads/main/patterns/pattern-flow.patt">
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/an3732me-s-ship-it/6_test/refs/heads/main/models/flow.glb)" 
+                  scale="10 10 10" 
+                  position="0 0 0" 
+                  rotation="0 0 0"
+                  architect-filters="color: #4135DB; opacity: 0.8"></a-entity>
+      </a-marker>
+      
+
+
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
